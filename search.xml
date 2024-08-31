@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2024/07/09/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <title>MySQL数据库</title>
+    <url>/2024/08/10/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<h2 id="MySQL数据库优化"><a href="#MySQL数据库优化" class="headerlink" title="MySQL数据库优化"></a>MySQL数据库优化</h2><pre><code>1. SQL优化
+    - 避免使用SELECT \* ，只查询必要字段
+    - 避免在SQL中进行函数计算
+    - 避免使用 %LIKE，导致全表扫描
+    - 联合索引需要满足*最左匹配原则*
+    - 不要对无索引字段进行排序
+    - 连表查询需要注意不同字段的字符集是否一致，否在也会导致全表扫描
+2. 库表设计优化
+    - 合理的表结构：如使用合适的数据类型
+    - 合理冗余字段：在适当时候（频繁的多表连接查询、实时性要求较高的系统等）进行反规范化设计，冗余部分数据，减少关联查询
+    - 索引优化：使用EXPLAIN分析查询执行计划，确认索引是否使用后进行优化
+    - 分库分表：针对超大规模数据库系统
+3. MySQL相关配置优化
+    + innodb_buffer_pool_size：增大 InnoDB 的缓冲池大小，一般设置为物理内存的 70-80%
+    + query_cache_size：适当调整查询缓存大小
+    + max_connections：增加最大连接数
+    + table_open_cache：增加打开表的缓存大小
+    + thread_cache_size：调整线程缓存大小以减少线程创建的开销
+4. 硬件优化
+    + 升级硬件：增加服务器的内存、CPU和存储速度
+    + 使用SSD
+5. 使用缓存
+    使用本地缓存，Redis分布式缓存
+</code></pre>
+<h2 id="MySQL数据库维护"><a href="#MySQL数据库维护" class="headerlink" title="MySQL数据库维护"></a>MySQL数据库维护</h2><pre><code>1. 定期备份，保证数据安全
+2. 定期清理不必要的数据和日志
+3. 定期重建索引
+4. 定期运行**ANALYZE TABLE** 分析表和 **OPTIMIZE TABLE** 优化表
+</code></pre>
 ]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>数据库</tag>
+      </tags>
   </entry>
   <entry>
     <title>Spring</title>
@@ -127,43 +149,21 @@ JVM产生的垃圾99%在堆区中
       </tags>
   </entry>
   <entry>
-    <title>MySQL数据库</title>
-    <url>/2024/08/10/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="MySQL数据库优化"><a href="#MySQL数据库优化" class="headerlink" title="MySQL数据库优化"></a>MySQL数据库优化</h2><pre><code>1. SQL优化
-    - 避免使用SELECT \* ，只查询必要字段
-    - 避免在SQL中进行函数计算
-    - 避免使用 %LIKE，导致全表扫描
-    - 联合索引需要满足*最左匹配原则*
-    - 不要对无索引字段进行排序
-    - 连表查询需要注意不同字段的字符集是否一致，否在也会导致全表扫描
-2. 库表设计优化
-    - 合理的表结构：如使用合适的数据类型
-    - 合理冗余字段：在适当时候（频繁的多表连接查询、实时性要求较高的系统等）进行反规范化设计，冗余部分数据，减少关联查询
-    - 索引优化：使用EXPLAIN分析查询执行计划，确认索引是否使用后进行优化
-    - 分库分表：针对超大规模数据库系统
-3. MySQL相关配置优化
-    + innodb_buffer_pool_size：增大 InnoDB 的缓冲池大小，一般设置为物理内存的 70-80%
-    + query_cache_size：适当调整查询缓存大小
-    + max_connections：增加最大连接数
-    + table_open_cache：增加打开表的缓存大小
-    + thread_cache_size：调整线程缓存大小以减少线程创建的开销
-4. 硬件优化
-    + 升级硬件：增加服务器的内存、CPU和存储速度
-    + 使用SSD
-5. 使用缓存
-    使用本地缓存，Redis分布式缓存
-</code></pre>
-<h2 id="MySQL数据库维护"><a href="#MySQL数据库维护" class="headerlink" title="MySQL数据库维护"></a>MySQL数据库维护</h2><pre><code>1. 定期备份，保证数据安全
-2. 定期清理不必要的数据和日志
-3. 定期重建索引
-4. 定期运行**ANALYZE TABLE** 分析表和 **OPTIMIZE TABLE** 优化表
-</code></pre>
+    <title>Hello World</title>
+    <url>/2024/07/09/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>数据库</tag>
-      </tags>
   </entry>
 </search>
