@@ -3,35 +3,44 @@
   <entry>
     <title>MySQL数据库</title>
     <url>/2024/08/10/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<h2 id="MySQL数据库优化"><a href="#MySQL数据库优化" class="headerlink" title="MySQL数据库优化"></a>MySQL数据库优化</h2><pre><code>1. SQL优化
-    - 避免使用SELECT \* ，只查询必要字段
-    - 避免在SQL中进行函数计算
-    - 避免使用 %LIKE，导致全表扫描
-    - 联合索引需要满足*最左匹配原则*
-    - 不要对无索引字段进行排序
-    - 连表查询需要注意不同字段的字符集是否一致，否在也会导致全表扫描
-2. 库表设计优化
-    - 合理的表结构：如使用合适的数据类型
-    - 合理冗余字段：在适当时候（频繁的多表连接查询、实时性要求较高的系统等）进行反规范化设计，冗余部分数据，减少关联查询
-    - 索引优化：使用EXPLAIN分析查询执行计划，确认索引是否使用后进行优化
-    - 分库分表：针对超大规模数据库系统
-3. MySQL相关配置优化
-    + innodb_buffer_pool_size：增大 InnoDB 的缓冲池大小，一般设置为物理内存的 70-80%
-    + query_cache_size：适当调整查询缓存大小
-    + max_connections：增加最大连接数
-    + table_open_cache：增加打开表的缓存大小
-    + thread_cache_size：调整线程缓存大小以减少线程创建的开销
-4. 硬件优化
-    + 升级硬件：增加服务器的内存、CPU和存储速度
-    + 使用SSD
-5. 使用缓存
-    使用本地缓存，Redis分布式缓存
-</code></pre>
-<h2 id="MySQL数据库维护"><a href="#MySQL数据库维护" class="headerlink" title="MySQL数据库维护"></a>MySQL数据库维护</h2><pre><code>1. 定期备份，保证数据安全
-2. 定期清理不必要的数据和日志
-3. 定期重建索引
-4. 定期运行**ANALYZE TABLE** 分析表和 **OPTIMIZE TABLE** 优化表
-</code></pre>
+    <content><![CDATA[<h2 id="MySQL数据库优化"><a href="#MySQL数据库优化" class="headerlink" title="MySQL数据库优化"></a>MySQL数据库优化</h2><ol>
+<li>SQL优化<ul>
+<li>避免使用SELECT * ，只查询必要字段</li>
+<li>避免在SQL中进行函数计算</li>
+<li>避免使用 %LIKE，导致全表扫描</li>
+<li>联合索引需要满足<em>最左匹配原则</em></li>
+<li>不要对无索引字段进行排序</li>
+<li>连表查询需要注意不同字段的字符集是否一致，否在也会导致全表扫描</li>
+</ul>
+</li>
+<li>库表设计优化<ul>
+<li>合理的表结构：如使用合适的数据类型</li>
+<li>合理冗余字段：在适当时候（频繁的多表连接查询、实时性要求较高的系统等）进行反规范化设计，冗余部分数据，减少关联查询</li>
+<li>索引优化：使用EXPLAIN分析查询执行计划，确认索引是否使用后进行优化</li>
+<li>分库分表：针对超大规模数据库系统</li>
+</ul>
+</li>
+<li>MySQL相关配置优化<ul>
+<li>innodb_buffer_pool_size：增大 InnoDB 的缓冲池大小，一般设置为物理内存的 70-80%</li>
+<li>query_cache_size：适当调整查询缓存大小</li>
+<li>max_connections：增加最大连接数</li>
+<li>table_open_cache：增加打开表的缓存大小</li>
+<li>thread_cache_size：调整线程缓存大小以减少线程创建的开销</li>
+</ul>
+</li>
+<li>硬件优化<ul>
+<li>升级硬件：增加服务器的内存、CPU和存储速度</li>
+<li>使用SSD</li>
+</ul>
+</li>
+<li>使用缓存<br> 使用本地缓存，Redis分布式缓存</li>
+</ol>
+<h2 id="MySQL数据库维护"><a href="#MySQL数据库维护" class="headerlink" title="MySQL数据库维护"></a>MySQL数据库维护</h2><ol>
+<li>定期备份，保证数据安全</li>
+<li>定期清理不必要的数据和日志</li>
+<li>定期重建索引</li>
+<li>定期运行<strong>ANALYZE TABLE</strong> 分析表和 <strong>OPTIMIZE TABLE</strong> 优化表</li>
+</ol>
 ]]></content>
       <categories>
         <category>数据库</category>
@@ -55,91 +64,78 @@
   <entry>
     <title>Java相关知识点</title>
     <url>/2024/07/09/Java%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="Red-Black-Tree-红黑树"><a href="#Red-Black-Tree-红黑树" class="headerlink" title="Red Black Tree 红黑树"></a>Red Black Tree 红黑树</h3><pre><code>![](https://raw.githubusercontent.com/xxbl6/PicUplroader/main/img/20240810214301.png)
-1. 定义：
-    - 需为二叉搜索树（左&lt;根&lt;右）
-    - 根结点和叶子结点都是黑色(叶子结点为NULL结点）
-    - 不存在连续的两个红色结点【不红红】
-    - 任一结点到叶子结点的所有路径黑结点数量相同
-2. 查询时间复杂度为O(logn)与AVL树相同
-    实际效率略低于AVL树
-3. 插入：
-    1) 插入结点默认为*红色*
-    2) 若违反红黑树性质：
-        若插入结点是根结点  ——&gt; 直接变黑
-        若插入结点的叔叔是红色 ——&gt; 叔父爷结点都变色，爷爷结点变成插入结点，继续进行判定
-        若插入结点的叔叔是黑色 ——&gt;（LL，RR，LR，RL）旋转，然后对旋转点和中心点变色
-            + LL型：爷爷右旋，爷父变色
-            + RR型：爷爷左旋，爷父变色
-            + LR型：父左旋，爷爷右旋，爷孩变色
-            + RL型：父右旋，爷爷左旋，爷孩变色
-4. 删除：
-    + 只有左孩子/右孩子：直接代替
-    + 没有孩子的红结点：直接删除
-        没有孩子的黑结点：&#123;记删除结点为d，父结点为p，兄弟结点为s，兄弟孩子结点为r，删除后为双黑&#125;
-            1）s是黑色：
-                - s至少有一个红孩子结点：（LL，RR，LR，RL）变色，然后旋转
-                    d为右结点：s单左孩子或有两个孩子都认为是LL型，进行变色--&gt;r变s，s变p，p变黑，右旋
-                    d为左结点：s单右孩子或有两个孩子都认为是RR型，进行变色--&gt;r变s，s变p，p变黑，左旋
-                    s为左结点，r为右结点：LR型，变色--&gt;r变p，p变黑，s左旋，p右旋
-                    s为右结点，r为左结点：RL型，变色--&gt;r变p，p变黑，s右旋，p左旋
-                - s的孩子都是黑结点：
-                    s变红，双黑上移，即让p变为双黑，
-                        若p的兄弟结点为黑色，且至少有一个红孩子结点，进行上述调整
-                        若p为红色，则p变单黑
-                        若p为根，则变为单黑
-            2） s是红色：兄父变色，父朝双黑结点旋转，保持双黑，继续进行调整
-    + 有两个孩子：通过直接前驱或直接后驱的替换，转换为只有左子树或只有右子树、没有孩子的结点的结点
-        *通过中序遍历，当前结点的前一个结点为它的直接前驱，后一个结点为当前 结点的直接后继*
-</code></pre>
-<h3 id="B-Tree-B-树"><a href="#B-Tree-B-树" class="headerlink" title="B Tree  B 树"></a>B Tree  B 树</h3><pre><code>+ m阶b树：m为最多的分叉
-+ 最大元素个数：阶数-1
-+ 叶子结点下为 失败结点
-+ 插入：先查找到插入的位置（一定在叶子结点） 
-              如果没有上溢出（超过最大元素个数，无需调整）、
-              否则中间元素（m/2）上移，两边分裂，直到没有上溢出为止
-![](https://raw.githubusercontent.com/xxbl6/PicUplroader/main/img/b%E6%A0%91%20.jpg)
-               
-</code></pre>
-<h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><h3 id="InetAddress类的应用"><a href="#InetAddress类的应用" class="headerlink" title="InetAddress类的应用"></a>InetAddress类的应用</h3><pre><code><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//查询本机IP地址</span></span><br><span class="line">      <span class="type">InetAddress</span> <span class="variable">inetAddress1</span> <span class="operator">=</span> InetAddress.getByName(<span class="string">&quot;localhost&quot;</span>);</span><br></pre></td></tr></table></figure>
-</code></pre>
-<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><pre><code>+ 端口号位0~65535
-+ 端口协议分为TCP、UDP ；总端口号有65535\* 2
-+ 端口号：
-    - 公有端口：0~1023
-        HTTP：80 ；HTTPS：443 ； FTP：21 ； Telent：23 ；
-    - 程序注册端口：1024~49151		
-        Tomcat： 8080 ； MySQL： 3306 ； Oracle：1521；
-    - 动态、私有：49152~65535
-        netstart -ano 查看所有端口号
-        netstart -ano|findstr “8080”查看指定端口
-        tasklist|findstr “8696” 查看指定端口进程
-+查看端口号
-</code></pre>
-<h2 id="JVM相关"><a href="#JVM相关" class="headerlink" title="JVM相关"></a>JVM相关</h2><h3 id="体系结构："><a href="#体系结构：" class="headerlink" title="体系结构："></a>体系结构：</h3><pre><code>![](https://raw.githubusercontent.com/xxbl6/PicUplroader/main/img/Snipaste_2024-07-14_20-24-30.jpg)
-JVM产生的垃圾99%在堆区中
-</code></pre>
-<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><pre><code>new Student(); 具体实例引用在**栈**中 ,具体的人存放在**堆**中 
-1. 分类：
-    + 虚拟机自带的加载器
-    + 启动类加载器（根加载器）
-    + 扩展类加载器
-    + 应用程序加载器  
-2. 类加载机制：
-+ *双亲委派机制* ： 将请求一直向上委派给父类加载器，父类无法执行，子类才会尝试加载
-     类加载顺序：APP --&gt; ext --&gt; boot( 最终执行 )
- + *沙箱安全机制* 
-3. native关键字
-    使用**JNI**，调用本地方法库（ *调用底层C/C++库* ）
-4. 方法区
-    存放*静态变量（static）、常量（final）、类信息（Class，构造方法、接口定义）、运行时的常量池*  
-    实例变量存放在**堆内存**中
-5. 栈
-    + 栈内存，主管程序的运行，正在运行的程序存在于栈顶，main()先入栈最后出栈
-    + 线程结束栈内存释放，不存在垃圾回收问题
-    + 运行原理：栈帧
-    + 存放8大基本类型，对象引用，实例的方法
-</code></pre>
+    <content><![CDATA[<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h4 id="Red-Black-Tree-红黑树"><a href="#Red-Black-Tree-红黑树" class="headerlink" title="Red Black Tree 红黑树"></a>Red Black Tree 红黑树</h4><p><img src="https://raw.githubusercontent.com/xxbl6/PicUplroader/main/img/20240810214301.png"></p>
+<ol>
+<li>定义：<ul>
+<li>需为二叉搜索树（左&lt;根&lt;右）</li>
+<li>根结点和叶子结点都是黑色(叶子结点为NULL结点）</li>
+<li>不存在连续的两个红色结点【不红红】</li>
+<li>任一结点到叶子结点的所有路径黑结点数量相同</li>
+</ul>
+</li>
+<li>查询时间复杂度为O(logn)与AVL树相同<br> 实际效率略低于AVL树</li>
+<li>插入：<ol>
+<li>插入结点默认为<em>红色</em></li>
+<li>若违反红黑树性质：<br> 若插入结点是根结点  ——&gt; 直接变黑<br> 若插入结点的叔叔是红色 ——&gt; 叔父爷结点都变色，爷爷结点变成插入结点，继续进行判定<br> 若插入结点的叔叔是黑色 ——&gt;（LL，RR，LR，RL）旋转，然后对旋转点和中心点变色</li>
+</ol>
+<ul>
+<li>LL型：爷爷右旋，爷父变色</li>
+<li>RR型：爷爷左旋，爷父变色</li>
+<li>LR型：父左旋，爷爷右旋，爷孩变色</li>
+<li>RL型：父右旋，爷爷左旋，爷孩变色</li>
+</ul>
+</li>
+<li>删除：<ul>
+<li>只有左孩子&#x2F;右孩子：直接代替</li>
+<li>没有孩子的红结点：直接删除<br>  没有孩子的黑结点：{记删除结点为d，父结点为p，兄弟结点为s，兄弟孩子结点为r，删除后为双黑}<br>  1）s是黑色：<br>  - s至少有一个红孩子结点：（LL，RR，LR，RL）变色，然后旋转<br>      d为右结点：s单左孩子或有两个孩子都认为是LL型，进行变色–&gt;r变s，s变p，p变黑，右旋<br>      d为左结点：s单右孩子或有两个孩子都认为是RR型，进行变色–&gt;r变s，s变p，p变黑，左旋<br>      s为左结点，r为右结点：LR型，变色–&gt;r变p，p变黑，s左旋，p右旋<br>      s为右结点，r为左结点：RL型，变色–&gt;r变p，p变黑，s右旋，p左旋<br>  - s的孩子都是黑结点：<br>      s变红，双黑上移，即让p变为双黑，<br>          若p的兄弟结点为黑色，且至少有一个红孩子结点，进行上述调整<br>          若p为红色，则p变单黑<br>          若p为根，则变为单黑<br>  2） s是红色：兄父变色，父朝双黑结点旋转，保持双黑，继续进行调整</li>
+<li>有两个孩子：通过直接前驱或直接后驱的替换，转换为只有左子树或只有右子树、没有孩子的结点的结点<br>  <em>通过中序遍历，当前结点的前一个结点为它的直接前驱，后一个结点为当前 结点的直接后继</em></li>
+</ul>
+</li>
+</ol>
+<h3 id="B-Tree-B-树"><a href="#B-Tree-B-树" class="headerlink" title="B Tree  B 树"></a>B Tree  B 树</h3><ul>
+<li>m阶b树：m为最多的分叉</li>
+<li>最大元素个数：阶数-1</li>
+<li>叶子结点下为 失败结点</li>
+<li>插入：先查找到插入的位置（一定在叶子结点）<br>       如果没有上溢出（超过最大元素个数，无需调整）、<br>       否则中间元素（m&#x2F;2）上移，两边分裂，直到没有上溢出为止</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/xxbl6/PicUplroader/main/img/b%E6%A0%91%20.jpg"></p>
+<h2 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h2><h3 id="InetAddress类的应用"><a href="#InetAddress类的应用" class="headerlink" title="InetAddress类的应用"></a>InetAddress类的应用</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//查询本机IP地址</span></span><br><span class="line">   <span class="type">InetAddress</span> <span class="variable">inetAddress1</span> <span class="operator">=</span> InetAddress.getByName(<span class="string">&quot;localhost&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><ol>
+<li>端口号位0~65535</li>
+<li>端口协议分为TCP、UDP ；总端口号有65535* 2</li>
+<li>端口号：<ul>
+<li>公有端口：0~1023<br>  HTTP：80 ；HTTPS：443 ； FTP：21 ； Telent：23 ；</li>
+<li>程序注册端口：1024~49151		<br>  Tomcat： 8080 ； MySQL： 3306 ； Oracle：1521；</li>
+<li>动态、私有：49152~65535<br> netstart -ano 查看所有端口号<br> netstart -ano|findstr “8080”查看指定端口<br> tasklist|findstr “8696” 查看指定端口进程</li>
+<li>查看端口号</li>
+</ul>
+</li>
+</ol>
+<h2 id="JVM相关"><a href="#JVM相关" class="headerlink" title="JVM相关"></a>JVM相关</h2><h3 id="体系结构："><a href="#体系结构：" class="headerlink" title="体系结构："></a>体系结构：</h3><p><img src="https://raw.githubusercontent.com/xxbl6/PicUplroader/main/img/Snipaste_2024-07-14_20-24-30.jpg"><br>JVM产生的垃圾99%在堆区中</p>
+<h3 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h3><p>new Student(); 具体实例引用在<strong>栈</strong>中 ,具体的人存放在<strong>堆</strong>中 </p>
+<ol>
+<li>分类：<ul>
+<li>虚拟机自带的加载器</li>
+<li>启动类加载器（根加载器）</li>
+<li>扩展类加载器</li>
+<li>应用程序加载器</li>
+</ul>
+</li>
+<li>类加载机制：<ul>
+<li><em>双亲委派机制</em> ： 将请求一直向上委派给父类加载器，父类无法执行，子类才会尝试加载<br>   类加载顺序：APP –&gt; ext –&gt; boot( 最终执行 )</li>
+<li><em>沙箱安全机制</em></li>
+</ul>
+</li>
+<li>native关键字<br> 使用<strong>JNI</strong>，调用本地方法库（ <em>调用底层C&#x2F;C++库</em> ）</li>
+<li>方法区<br> 存放<em>静态变量（static）、常量（final）、类信息（Class，构造方法、接口定义）、运行时的常量池</em><br> 实例变量存放在<strong>堆内存</strong>中</li>
+<li>栈<ul>
+<li>栈内存，主管程序的运行，正在运行的程序存在于栈顶，main()先入栈最后出栈</li>
+<li>线程结束栈内存释放，不存在垃圾回收问题</li>
+<li>运行原理：栈帧</li>
+<li>存放8大基本类型，对象引用，实例的方法</li>
+</ul>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>Java</category>
